@@ -1,7 +1,11 @@
 use std::collections::HashMap;
 
-pub fn parse_url_search_params(params: String) -> HashMap<String, String> {
+pub fn parse_url_search_params(params: &str) -> HashMap<String, String> {
     let mut params_map : HashMap<String, String> = HashMap::new();
+
+    if params.trim().is_empty() {
+        return params_map
+    }
 
     let split_iter = params.split("&").into_iter();
     for param in split_iter {
@@ -52,7 +56,7 @@ mod tests {
         params_map.insert("empty_value".to_string(), "".to_string());
 
         let search_params = build_url_search_params(params_map);
-        let parsed_search_params = parse_url_search_params(search_params);
+        let parsed_search_params = parse_url_search_params(&search_params);
 
         let boxed_get = parsed_search_params.get("key1");
         assert!(boxed_get.is_some());
@@ -77,5 +81,12 @@ mod tests {
 
         let actual_param_value = boxed_get.unwrap();
         assert_eq!(actual_param_value, "");
+    }
+
+    #[test]
+    fn parse_empty_url_search_params() {
+        let search_params = "";
+        let params = parse_url_search_params(search_params);
+        assert_eq!(0, params.len());
     }
 }
