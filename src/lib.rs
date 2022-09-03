@@ -23,7 +23,9 @@ pub fn parse_url_search_params(params: &str) -> HashMap<String, String> {
             value = boxed_value.unwrap();
         }
 
-        params_map.insert(key.to_string(), value.to_string());
+        if !key.is_empty() {
+            params_map.insert(key.to_string(), value.to_string());
+        }
 
     }
     params_map
@@ -71,10 +73,7 @@ mod tests {
         assert_eq!(actual_param_value, "test2");
 
         let boxed_get = parsed_search_params.get("");
-        assert!(boxed_get.is_some());
-
-        let actual_param_value = boxed_get.unwrap();
-        assert_eq!(actual_param_value, "empty_key");
+        assert!(boxed_get.is_none());
 
         let boxed_get = parsed_search_params.get("empty_value");
         assert!(boxed_get.is_some());
@@ -84,9 +83,61 @@ mod tests {
     }
 
     #[test]
+    fn build_url_search_params_ampersand() {
+        let mut params_map: HashMap<String, String> = HashMap::new();
+        params_map.insert("key1".to_string(), "test1".to_string());
+        params_map.insert("key2".to_string(), "test2".to_string());
+        params_map.insert("".to_string(), "empty_key".to_string());
+        params_map.insert("empty_value".to_string(), "".to_string());
+        params_map.insert("&".to_string(), "unescaped_ampersand_as_key".to_string());
+
+        let search_params = build_url_search_params(params_map);
+        let parsed_search_params = parse_url_search_params(&search_params);
+
+        let boxed_get = parsed_search_params.get("key1");
+        assert!(boxed_get.is_some());
+
+        let actual_param_value = boxed_get.unwrap();
+        assert_eq!(actual_param_value, "test1");
+
+        let boxed_get = parsed_search_params.get("key2");
+        assert!(boxed_get.is_some());
+
+        let actual_param_value = boxed_get.unwrap();
+        assert_eq!(actual_param_value, "test2");
+
+        let boxed_get = parsed_search_params.get("");
+        assert!(boxed_get.is_none());
+
+
+        let boxed_get = parsed_search_params.get("empty_value");
+        assert!(boxed_get.is_some());
+
+        let actual_param_value = boxed_get.unwrap();
+        assert_eq!(actual_param_value, "");
+
+        let boxed_get = parsed_search_params.get("empty_value");
+        assert!(boxed_get.is_some());
+
+    }
+
+    #[test]
     fn parse_empty_url_search_params() {
         let search_params = "";
         let params = parse_url_search_params(search_params);
         assert_eq!(0, params.len());
+    }
+
+    #[test]
+    fn parse_empty_equals_ampersand_search_params() {
+        let search_params = "=&key2=value2";
+        let params = parse_url_search_params(search_params);
+        assert_eq!(1, params.len());
+
+        let boxed_get = params.get("key2");
+        assert!(boxed_get.is_some());
+
+        let actual_param_value = boxed_get.unwrap();
+        assert_eq!(actual_param_value, "value2");
     }
 }
