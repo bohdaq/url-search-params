@@ -1,5 +1,45 @@
+//! # url search params
+//!
+//! `url-search-params` provides ability to create search params from HashMap and vice versa.
+//!
+//! In (url)[https://en.wikipedia.org/wiki/URL] (web address) search params corresponds to (query string)[https://en.wikipedia.org/wiki/Query_string].
+//!
+//! Keep in mind it works with the query string part of the URL, it is not intended to work on the whole URL by design.
+//! As per specification, the question mark '?' URL delimiter is not part of a query string.
+//!
+//! Also hash mark '#' url delimiter and fragment part of URL is not the parts of a query string.
+//! In practice it means, the fragment and preceding hash mark won't be sent in a request to a server.
+//!
 use std::collections::HashMap;
 
+
+/// Converts given string into a HashMap containing query string parameters as
+/// key value pairs
+///
+/// # Examples
+///
+/// ```
+///    use std::collections::HashMap;
+///    use url_search_params::parse_url_search_params;
+///
+///    let search_params: &str = "key=value&another_key=its_value";
+///    let params: HashMap<String, String> = parse_url_search_params(search_params);
+///
+///    // validating output
+///    assert_eq!(2, params.len());
+///
+///    let boxed_get = params.get("key");
+///    assert!(boxed_get.is_some());
+///
+///    let actual_param_value = boxed_get.unwrap();
+///    assert_eq!(actual_param_value, "value");
+///
+///    let boxed_get = params.get("another_key");
+///    assert!(boxed_get.is_some());
+///
+///    let actual_param_value = boxed_get.unwrap();
+///    assert_eq!(actual_param_value, "its_value");
+/// ```
 pub fn parse_url_search_params(params: &str) -> HashMap<String, String> {
     let mut params_map : HashMap<String, String> = HashMap::new();
 
@@ -31,6 +71,39 @@ pub fn parse_url_search_params(params: &str) -> HashMap<String, String> {
     params_map
 }
 
+
+/// Converts given HashMap into a query string
+///
+/// # Examples
+///
+/// ```
+///
+/// use std::collections::HashMap;
+/// use url_search_params::{build_url_search_params, parse_url_search_params};
+///
+/// let mut params_map: HashMap<String, String> = HashMap::new();
+/// params_map.insert("key1".to_string(), "test1".to_string());
+/// params_map.insert("key2".to_string(), "test2".to_string());
+///
+/// let search_params : String = build_url_search_params(params_map);
+///
+/// // validating output
+/// let parsed_search_params: HashMap<String, String> = parse_url_search_params(&search_params);
+///
+/// let boxed_get = parsed_search_params.get("key1");
+/// assert!(boxed_get.is_some());
+///
+/// let actual_param_value = boxed_get.unwrap();
+/// assert_eq!(actual_param_value, "test1");
+///
+/// let boxed_get = parsed_search_params.get("key2");
+/// assert!(boxed_get.is_some());
+///
+/// let actual_param_value = boxed_get.unwrap();
+/// assert_eq!(actual_param_value, "test2");
+///
+///
+/// ```
 pub fn build_url_search_params(params: HashMap<String, String>) -> String {
 
     let mut key_value_list : Vec<String> = vec![];
