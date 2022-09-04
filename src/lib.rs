@@ -1,20 +1,20 @@
 //! # url search params
 //!
-//! `url-search-params` provides ability to create search params from HashMap and vice versa.
+//! `url-search-params` provides the ability to create search params from HashMap and vice versa.
 //!
-//! In (url)[https://en.wikipedia.org/wiki/URL] (web address) search params corresponds to (query string)[https://en.wikipedia.org/wiki/Query_string].
+//! In [url](https://en.wikipedia.org/wiki/URL) (web address) search params correspond to [query string](https://en.wikipedia.org/wiki/Query_string).
 //!
 //! Keep in mind it works with the query string part of the URL, it is not intended to work on the whole URL by design.
-//! As per specification, the question mark '?' URL delimiter is not part of a query string.
+//! As per specification, the question mark `?` URL delimiter is not part of a query string.
 //!
-//! Also hash mark '#' url delimiter and fragment part of URL is not the parts of a query string.
-//! In practice it means, the fragment and preceding hash mark won't be sent in a request to a server.
+//! Also hash mark `#` url delimiter and fragment part of URL is not the parts of a query string.
+//! In practice, it means, the fragment and preceding hash mark won't be sent in a request to a server.
 //!
 use std::collections::HashMap;
 
 
-/// Converts given string into a HashMap containing query string parameters as
-/// key value pairs
+/// Convert given string into a HashMap containing query string parameters as
+/// key-value pairs
 ///
 /// # Examples
 ///
@@ -72,7 +72,7 @@ pub fn parse_url_search_params(params: &str) -> HashMap<String, String> {
 }
 
 
-/// Converts given HashMap into a query string
+/// Convert given HashMap into a query string
 ///
 /// # Examples
 ///
