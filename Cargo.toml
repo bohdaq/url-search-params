@@ -2,6 +2,16 @@
 name = "url-search-params"
 version = "1.0.0"
 edition = "2021"
+homepage = "https://github.com/bohdaq/url-search-params"
+repository = "https://github.com/bohdaq/url-search-params"
+readme = "README.md"
+description = "url-search-params provides the ability to create search params from HashMap and vice versa."
+rust-version = "1.56"
+authors = ["Bohdan Tsap <bohdan.tsap@tutanota.com>"]
+keywords = ["URL", "query string", "search params"]
+categories = ["web-programming", "web-programming::http-client", "web-programming::http-server", "parsing", "network-programming"]
+license = "MIT OR Apache-2.0 OR ISC OR LGPL-3.0-or-later OR CC-BY-4.0"
+
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
