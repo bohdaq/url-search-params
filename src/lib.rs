@@ -112,6 +112,7 @@ pub fn build_url_search_params(params: HashMap<String, String>) -> String {
         key_value_list.push(param);
     }
 
+    key_value_list.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
     let url_search_params : String = key_value_list.join("&");
 
     url_search_params
