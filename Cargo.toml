@@ -1,12 +1,11 @@
 [package]
 name = "url-search-params"
-version = "10.0.0"
+version = "11.0.0"
 edition = "2021"
 homepage = "https://github.com/bohdaq/url-search-params"
 repository = "https://github.com/bohdaq/url-search-params"
 readme = "README.md"
 description = "url-search-params provides the ability to create search params from HashMap and vice versa."
-rust-version = "1.68"
 authors = ["Bohdan Tsap <bohdan.tsap@tutanota.com>"]
 keywords = ["URL", "query", "params"]
 categories = ["web-programming", "web-programming::http-client", "web-programming::http-server", "parsing", "network-programming"]
